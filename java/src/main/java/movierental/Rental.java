@@ -19,29 +19,44 @@ public class Rental {
     }
 
     public double getRentalPrice() {
-        double rentalPrice = 0;
 
-        //determine amounts for rental line
         switch (getMovie().getPriceCode()) {
             case Movie.REGULAR:
-                rentalPrice += 2;
-                if (getDaysRented() > 2)
-                    rentalPrice += (getDaysRented() - 2) * 1.5;
-                break;
+                return getRegularRentalPrice(getDaysRented());
+
             case Movie.NEW_RELEASE:
-                rentalPrice += getDaysRented() * 3;
-                break;
+                return getRentalPriceForNewRelease(getDaysRented());
+
             case Movie.CHILDREN:
-                rentalPrice += 1.5;
-                if (getDaysRented() > 3)
-                    rentalPrice += (getDaysRented() - 3) * 1.5;
-                break;
+                return getRentalPriceForChildren(getDaysRented());
+
+            default:
+                return 0;
         }
+    }
+
+    private double getRentalPriceForChildren(int daysRented) {
+        double rentalPrice = 1.5;
+
+        if (daysRented > 3)
+            rentalPrice += (daysRented - 3) * 1.5;
+
+        return rentalPrice;
+    }
+
+    private int getRentalPriceForNewRelease(int daysRented) {
+        return daysRented * 3;
+    }
+
+    private double getRegularRentalPrice(int daysRented) {
+        double rentalPrice = 2;
+        if (daysRented > 2)
+            rentalPrice += (daysRented - 2) * 1.5;
         return rentalPrice;
     }
 
     int getFrequentRenterPoints() {
-       int frequentRenterPoints = 1;
+        int frequentRenterPoints = 1;
         if ((getMovie().getPriceCode() == Movie.NEW_RELEASE) && getDaysRented() > 1)
             frequentRenterPoints++;
         return frequentRenterPoints;
