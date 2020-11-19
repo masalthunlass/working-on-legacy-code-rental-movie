@@ -1,4 +1,5 @@
 package movierental;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +25,11 @@ public class Customer {
     // points =  I :  O :
     public String toReceipt() {
         double totalPrice = 0;
-
+        final ReceiptBuilder receiptBuilder = new ReceiptBuilder();
         int frequentRenterPoints = 0;
-        String receipt = "Rental Record for " + getName() + "\n";
-        for (Rental rental: _rentals) {
+        receiptBuilder.addCustomerName(getName());
+
+        for (Rental rental : _rentals) {
             double rentalPrice = rental.getRentalPrice();
 
             // add frequent renter points
@@ -37,15 +39,16 @@ public class Customer {
                 frequentRenterPoints++;
 
             // show figures for this rental
-            receipt += "\t" + rental.getMovie().getTitle() + "\t" + rentalPrice + "\n";
+            receiptBuilder.addRentalPrice(rentalPrice, rental.getMovie().getTitle());
             totalPrice += rentalPrice;
         }
 
         // add footer lines
-        receipt += "Amount owed is " + totalPrice + "\n";
-        receipt += "You earned " + frequentRenterPoints + " frequent renter points";
+        receiptBuilder.addTotalPrice(totalPrice);
+        receiptBuilder.addFrequentRentalPoints(frequentRenterPoints);
 
-        return receipt;
+        return receiptBuilder.build();
     }
+
 
 }
