@@ -20,9 +20,6 @@ public class Customer {
         return _name;
     }
 
-    // calcul totalPrice = I :  O :
-    // receipt = I :  O :
-    // points =  I :  O :
     public String toReceipt() {
         double totalPrice = 0;
         final ReceiptBuilder receiptBuilder = new ReceiptBuilder();
@@ -32,11 +29,7 @@ public class Customer {
         for (Rental rental : _rentals) {
             double rentalPrice = rental.getRentalPrice();
 
-            // add frequent renter points
-            frequentRenterPoints++;
-            // add bonus for a two day new release rental
-            if ((rental.getMovie().getPriceCode() == Movie.NEW_RELEASE) && rental.getDaysRented() > 1)
-                frequentRenterPoints++;
+            frequentRenterPoints += rental.getFrequentRenterPoints();
 
             // show figures for this rental
             receiptBuilder.addRentalPrice(rentalPrice, rental.getMovie().getTitle());
