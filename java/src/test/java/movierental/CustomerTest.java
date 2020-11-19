@@ -40,7 +40,7 @@ public class CustomerTest {
                 "\tGone with the Wind\t3.5\n" +
                 "Amount owed is 3.5\n" +
                 "You earned 1 frequent renter points";
-        String statement = customer2.statement();
+        String statement = customer2.toReceipt();
         assertEquals(expected, statement);
     }
 
@@ -57,13 +57,13 @@ public class CustomerTest {
                 "\tStar Wars\t9.0\n" +
                 "Amount owed is 9.0\n" +
                 "You earned 2 frequent renter points";
-        String statement = customer2.statement();
+        String statement = customer2.toReceipt();
         assertEquals(expected, statement);
     }
 
     @Test
     public void statementForChildrensMovie() {
-        Movie movie1 = new Movie("Madagascar", Movie.CHILDRENS);
+        Movie movie1 = new Movie("Madagascar", Movie.CHILDREN);
         Rental rental1 = new Rental(movie1, 3); // 3 day rental
         Customer customer2
                 = new CustomerBuilder()
@@ -74,13 +74,13 @@ public class CustomerTest {
                 "\tMadagascar\t1.5\n" +
                 "Amount owed is 1.5\n" +
                 "You earned 1 frequent renter points";
-        String statement = customer2.statement();
+        String statement = customer2.toReceipt();
         assertEquals(expected, statement);
     }
 
     @Test
     public void statementForManyMovies() {
-        Movie movie1 = new Movie("Madagascar", Movie.CHILDRENS);
+        Movie movie1 = new Movie("Madagascar", Movie.CHILDREN);
         Rental rental1 = new Rental(movie1, 6); // 6 day rental
         Movie movie2 = new Movie("Star Wars", Movie.NEW_RELEASE);
         Rental rental2 = new Rental(movie2, 2); // 2 day rental
@@ -97,7 +97,7 @@ public class CustomerTest {
                 "\tGone with the Wind\t11.0\n" +
                 "Amount owed is 23.0\n" +
                 "You earned 4 frequent renter points";
-        String statement = customer1.statement();
+        String statement = customer1.toReceipt();
         assertEquals(expected, statement);
     }
 
